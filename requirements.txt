@@ -1,0 +1,8 @@
+streamlit
+langchain
+langchain-ollama
+supabase
+pydantic
+python-dotenv
+pandas
+plotly
