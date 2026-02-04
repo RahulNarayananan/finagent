@@ -11,6 +11,7 @@ create table if not exists transactions (
     merchant text not null,
     category text,
     notes text,
+    currency text default 'SGD',
     receipt_url text,
     embedding vector(768) -- Dimension depends on the Ollama model (e.g. nomic-embed-text is 768)
 );

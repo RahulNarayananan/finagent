@@ -15,6 +15,12 @@ class Transaction(BaseModel):
     # Enhanced split tracking
     my_share: Optional[float] = Field(default=None, description="Amount the user paid (for uneven splits)")
     split_amounts: Optional[Dict[str, float]] = Field(default=None, description="Individual split amounts per person (e.g., {'Alice': 30.0, 'Bob': 20.0})")
+    
+    # Tax handling
+    gst: Optional[float] = Field(default=None, description="GST/tax amount to be split equally among all people")
+    
+    # Currency support
+    currency: Optional[str] = Field(default="SGD", description="Currency code (USD, EUR, SGD, INR, etc.)")
 
 class TransactionCount(BaseModel):
     """Response for detecting multiple transactions."""

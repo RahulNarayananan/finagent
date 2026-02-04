@@ -5,11 +5,13 @@ AI-powered financial assistant for smart expense tracking and bill splitting.
 ## Features
 
 - **Smart Text Parsing**: Natural language transaction input powered by Ollama LLMs
-- **Multi-Transaction Detection**: Automatically extracts multiple transactions from a single input
 - **Intelligent Bill Splitting**: Supports even and uneven splits with percentage calculations
 - **Receipt OCR**: Extract transaction details from receipt images (vision model)
+- **Multi-Currency Support**: Track expenses in different currencies with automatic conversion
+- **Semantic Search**: Find transactions using natural language queries with keyword fallback
+- **Financial Insights**: AI-powered spending analysis comparing your patterns to population averages
 - **Supabase Integration**: Cloud database for transaction storage and sync
-- **Advanced Analytics**: Visualize spending patterns and trends
+- **Advanced Analytics**: Visualize spending patterns and trends with interactive charts
 
 ## Tech Stack
 
@@ -76,9 +78,9 @@ AI-powered financial assistant for smart expense tracking and bill splitting.
 "$15.50 at Starbucks for coffee today"
 ```
 
-**Multiple Transactions**:
+**With Line Items for Better Search**:
 ```
-"$15 at Starbucks and $8.50 at Subway for lunch"
+"Groceries at Safeway: milk, eggs, bread, cheese for $45"
 ```
 
 **Bill Splitting - Even**:
@@ -97,6 +99,25 @@ AI-powered financial assistant for smart expense tracking and bill splitting.
 → You pay: $36, Bob pays: $24
 ```
 
+### Multi-Currency Transactions
+
+```
+"Spent ₹2500 at Indian restaurant in Mumbai"
+"€45 for museum tickets in Paris"
+"Uber in Singapore, SGD 18"
+```
+
+### Semantic Search
+
+Search your transactions using natural language:
+```
+"coffee with friends"
+"groceries last week"
+"pizza"
+```
+
+The system uses hybrid search with semantic matching and keyword fallback.
+
 ## Project Structure
 
 ```
@@ -109,20 +130,25 @@ finagent/
 │   │   ├── llm.py            # LLM initialization and prompts
 │   │   ├── parser.py         # Transaction parsing logic
 │   │   ├── models.py         # Pydantic data models
-│   │   └── embeddings.py     # Embedding generation
+│   │   ├── embeddings.py     # Embedding generation
+│   │   ├── currency_converter.py  # Multi-currency support
+│   │   └── spending_analytics.py  # Financial insights engine
 │   └── data/
 │       ├── client.py         # Supabase client
 │       ├── schema.sql        # Database schema
-│       └── populate_synthetic_data.py  # Test data generator
+│       ├── populate_synthetic_data.py  # Test data generator
+│       └── populate_population_data.py  # Population data for insights
 └── .streamlit/
     └── config.toml           # Streamlit configuration
 ```
 
 ## Key Features Explained
 
-### Multi-Transaction Detection
+### Intelligent Line Item Extraction
 
-The system automatically detects when you enter multiple transactions in one input and separates them for individual review and saving.
+The LLM automatically extracts detailed line items from your transaction descriptions and stores them in the notes field. This makes searching much more effective:
+- "Bought coffee and croissant" → notes: "coffee, croissant"
+- "Groceries: milk, eggs, bread" → notes: "milk, eggs, bread"
 
 ### Uneven Split Calculations
 
@@ -133,13 +159,14 @@ Supports various split formats:
 
 The app displays individual shares and creates accurate debt records for each person.
 
-### Smart Parsing
+### Financial Insights & Recommendations
 
-Powered by Ollama's llama3.1 model with structured output, the parser handles:
-- Missing dollar signs ("spent 25 at Target")
-- Relative dates ("yesterday", "this morning")
-- Informal language ("like 156 or so")
-- Various category classifications
+Get personalized spending analysis:
+- Compare your spending to population averages
+- Identify overspending and underspending categories  
+- Receive friendly, actionable recommendations from AI
+- Interactive visualizations with bar charts
+- 24-hour caching for performance
 
 ## Contributing
 
